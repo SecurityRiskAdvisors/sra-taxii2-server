@@ -19,7 +19,7 @@ Get source for that, run docker-compose up
 
 ## Features ##
 
-Full Taxii 2.0 spec minus POST, Status, and Proper errors
+Full Taxii 2.0 spec minus POST, Status, and complete error-handling related to content types and other scenarios
 
 Tests
 =======
