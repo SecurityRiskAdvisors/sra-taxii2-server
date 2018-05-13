@@ -1,5 +1,7 @@
 # sra-taxii2-server
 
+Note: this is a project preview, installation and use process is not streamlined.  You're on your own a bit for right now until we get docs up and streamline our docker-compose file.  This server is reliant on the manager-server project for the time being as well.
+
 Taxii2 server based on https://docs.google.com/document/d/1Jv9ICjUNZrOnwUXtenB1QcnBLO35RnjQcJLsa1mGSkI/pub#h.1fg89uogyma3
 
 Uses Node.js with MongoDB backend.
