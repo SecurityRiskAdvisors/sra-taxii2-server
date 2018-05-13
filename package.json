@@ -1,0 +1,33 @@
+{
+  "name": "sra-taxii2-server",
+  "version": "0.1.0",
+  "description": "TAXII 2.0 server implemented in Node.js with Mongo data store",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "taxii",
+    "taxii2",
+    "threat-intelligence"
+  ],
+  "author": "galen.fisher@securityriskadvisors.com",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "express-range": "^2.0.1",
+    "lodash": "^4.17.5",
+    "mocha": "^4.1.0",
+    "mongoose": "^4.13.12",
+    "mongoose-aggregate-paginate-extend": "github:thebleucheese/mongoose-aggregate-paginate-extend",
+    "mongoose-paginate": "^5.0.3",
+    "passport": "^0.4.0",
+    "passport-http": "^0.3.0",
+    "uuid": "^3.2.1",
+    "verror": "^1.10.0"
+  }
+}
