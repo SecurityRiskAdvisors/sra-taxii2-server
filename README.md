@@ -1,5 +1,4 @@
 # sra-taxii2-server
-**********
 
 Taxii2 server based on https://docs.google.com/document/d/1Jv9ICjUNZrOnwUXtenB1QcnBLO35RnjQcJLsa1mGSkI/pub#h.1fg89uogyma3
 
