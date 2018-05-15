@@ -12,7 +12,7 @@ function init(server) {
             return next();
         }, 
         httpsRedirect, 
-        userAuthenticate,
+        userAuthenticate
         // @TODO - add userAuthorize at each router endpoint 
     );
 

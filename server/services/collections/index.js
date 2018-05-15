@@ -43,7 +43,7 @@ const getCollectionByName = async (req, res, next) => {
 
     try {
         let collectionResult = await CollectionModel.findOne({id: collectionName});
-        console.log("colRes: ", collectionResult)
+
         let collectionResponse = collectionsDataTransformer(req, [collectionResult.toJSON()] );
         res.data = collectionResponse.collections[0];
         

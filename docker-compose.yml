@@ -2,7 +2,8 @@ version: "3"
 services:
   sra-taxii2-server:
     container_name: sra-taxii2-server
-    build: ./
+    build: 
+      context: ./
     depends_on: 
       - sra-taxii2-mongo
     restart: always
@@ -19,7 +20,8 @@ services:
 
   sra-taxii2-manager-server:
     container_name: sra-taxii2-manager-server
-    build: ../sra-taxii2-manager/server
+    build: 
+      context: ../sra-taxii2-manager/server
     depends_on: 
       - sra-taxii2-mongo
     restart: always
