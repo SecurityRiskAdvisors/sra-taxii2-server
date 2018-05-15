@@ -1,6 +1,6 @@
 # sra-taxii2-server
 
-Note: this is a project preview, installation and use process is not streamlined.  You're on your own a bit for right now until we get docs up and streamline our docker-compose file.  This server is reliant on the manager-server project for the time being as well.
+**Note**: this is a project preview, installation and use process is not streamlined.  This server is reliant on the sra-taxii2-manager-server project for the time being as well.
 
 Taxii2 server based on https://docs.google.com/document/d/1Jv9ICjUNZrOnwUXtenB1QcnBLO35RnjQcJLsa1mGSkI/pub#h.1fg89uogyma3
 
@@ -10,19 +10,72 @@ Designed to be a full implementation of the spec with a separate manager applica
 
 ## Installation ##
 
-Use the sra-taxii2-bundle project, not this project.
+#### Linux Docker Host ####
 
-Get source for that, run docker-compose up
+##### Run the following commands on your Linux Host #####
+
+**Make a directory to house taxii server and manager:**
+```bash
+mkdir taxii2
+cd taxii2
+```
+
+**Clone taxii 2 server into its own subdirectory:**
+
+(Make sure you're in the taxii2 directory you created above)
+```bash
+mkdir sra-taxii2-server
+cd sra-taxii2-server
+git clone https://github.com/SecurityRiskAdvisors/sra-taxii2-server.git .
+cd ..
+```
+
+**Clone taxii 2 manager server into its own subdirectory:**
+
+(Make sure you're in the taxii2 directory you created above)
+```bash
+mkdir sra-taxii2-manager
+cd sra-taxii2-manager
+mkdir server
+cd server
+git clone https://github.com/SecurityRiskAdvisors/sra-taxii2-manager-server.git .
+cd ..
+```
+
+**Create self-signed certificates for dev/testing:**
+```bash
+sudo mkdir /opt/taxii/certs
+cd /opt/taxii/certs
+sudo openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365
+```
+
+**Start the TAXII server**
+
+(you may not need sudo depending on how you set your docker perms)
+```bash
+cd <location_to_your_taxii2_dir>/taxii2/sra-taxii2-server
+sudo docker-compose up
+```
 
 ## Usage ##
 
-``nodemon index.js``
+**Default username:** admin@example.com
+
+**Default pw:** admin
+
+Use Postman or a taxii2 client to talk to taxii endpoints like https://localhost:3003/taxii
+
+Endpoints support filtering like
+https://localhost:3003/apiroot1/collections/9ee8a9b3-da1b-45d1-9cf6-8141f7039f82/objects?added_after=2018-05-08T21:07:34.514Z
+
+The server also supports HTTP requests to taxii endpoints and will render them differently for browser viewing.
+
+The manager server API supports some CRUD operations for accounts and collections, but it's currently incomplete.
 
 ## Features ##
 
 Full Taxii 2.0 spec minus POST, Status, and complete error-handling related to content types and other scenarios
 
-Tests
-=======
+## Tests ##
 
 To be implemented
