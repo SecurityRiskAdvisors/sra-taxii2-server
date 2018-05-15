@@ -67,7 +67,6 @@ const baseErrors = {
 const buildError = (base, err = null, detail = {}) => {
     // @TODO - check baseErrors hasOwnProperty base for dev errors
 
-    console.log(err);
     let options = {};
     options.info = Object.assign(detail, baseErrors[base]);
     if(err != null) {
