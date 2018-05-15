@@ -1,0 +1,71 @@
+version: "3"
+services:
+  sra-taxii2-server:
+    container_name: sra-taxii2-server
+    build: ./
+    depends_on: 
+      - sra-taxii2-mongo
+    restart: always
+    volumes:
+      - ./:/usr/src/app/
+      - /usr/src/app/node_modules
+      - /opt/taxii/certs:/opt/taxii/certs
+    ports:
+      - "3002:3000"
+      - "3003:3001"
+    networks:
+      - taxii_bridge
+    dns: 8.8.8.8
+
+  sra-taxii2-manager-server:
+    container_name: sra-taxii2-manager-server
+    build: ../sra-taxii2-manager/server
+    depends_on: 
+      - sra-taxii2-mongo
+    restart: always
+    volumes:
+      - ../sra-taxii2-manager/server:/usr/src/app/
+      - /usr/src/app/node_modules
+      - /opt/taxii/certs:/opt/taxii/certs
+    ports:
+      - "4002:4000"
+      - "4003:4001"
+    networks:
+      - taxii_bridge
+    dns: 8.8.8.8
+
+  sra-taxii2-mongo:
+    container_name: sra-taxii2-mongo
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27019:27017"
+    networks:
+      - taxii_bridge
+    dns: 8.8.8.8
+
+  mongo-seed:
+    container_name: mongo-seed
+    image: mongo
+    depends_on:
+      - sra-taxii2-mongo
+    volumes:
+      - ./seed-data:/seed-data:z
+    ports: 
+      - "27020:27017"
+    #command:
+    #  /seed-data/import.sh
+    networks:
+      - taxii_bridge
+    links:
+      - sra-taxii2-mongo
+    dns: 8.8.8.8
+
+networks:
+  taxii_bridge: 
+    ipam:
+      driver: default
+      config:
+       - subnet: 10.0.24.0/24
+
