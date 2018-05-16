@@ -43,6 +43,9 @@ cd ..
 ```
 
 **Create self-signed certificates for dev/testing:**
+
+**Note**: The project currently expects a cert passphrase of testpw.  Change this in the app.js/index.js of the base server for the manager and taxii server project if you want to use a different passphrase for testing.  Just a reminder - this project is not dev ready.
+
 ```bash
 sudo mkdir /opt/taxii/certs
 cd /opt/taxii/certs
