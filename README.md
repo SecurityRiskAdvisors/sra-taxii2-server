@@ -43,10 +43,14 @@ cd ..
 ```
 
 **Create self-signed certificates for dev/testing:**
+
+**Note**: The project currently expects a cert passphrase of testpw.  Change this in the app.js/index.js of the base server for the manager and taxii server project if you want to use a different passphrase for testing.  Just a reminder - this project is not production ready.  This setup is for development and testing.
+
 ```bash
 sudo mkdir /opt/taxii/certs
 cd /opt/taxii/certs
-sudo openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365
+sudo openssl req -x509 -newkey rsa:2048 -keyout keytmp.pem -out cert.pem -days 365
+sudo openssl rsa -in keytmp.pem -out key.pem
 ```
 
 **Start the TAXII server**
@@ -75,6 +79,8 @@ The manager server API supports some CRUD operations for accounts and collection
 ## Features ##
 
 Full Taxii 2.0 spec minus POST, Status, and complete error-handling related to content types and other scenarios
+
+The POST side to add STIX 2 objects to a collection (and status to check on the progress of imports) will be handled by a deferred job queue at https://github.com/SecurityRiskAdvisors/sra-taxii2-server-queue but it's not wired up yet.  The queue functionality was run through some basic tests and is working, it just needs REST code in the server and some shared volume to share uploaded files.  
 
 ## Tests ##
 
