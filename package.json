@@ -11,12 +11,17 @@
     "taxii2",
     "threat-intelligence"
   ],
-  "author": "galen.fisher@securityriskadvisors.com",
+  "author": "Galen Fisher <galen.fisher@securityriskadvisors.com>",
   "license": "MIT",
+  "repository" : { 
+      "type" : "git",
+      "url" : "https://github.com/SecurityRiskAdvisors/sra-taxii2-server.git"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
+    "bull": "^3.4.2",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "express-range": "^2.0.1",

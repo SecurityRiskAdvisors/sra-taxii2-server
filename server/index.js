@@ -6,7 +6,7 @@ const
     bodyParser = require('body-parser'),
     fs = require('fs'),
     mongoose = require('mongoose'),
-    mongooseConnect = require('../lib/mongoose-connect'),
+    mongooseConnect = require('./lib/mongoose-connect'),
     passport = require('passport'),
     BasicStrategy = require('passport-http').BasicStrategy,
     http = require('http'),

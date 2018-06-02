@@ -1,8 +1,8 @@
 'use strict';
 
-const ModelFactory = require('../../../lib/model-factory')
+const ModelFactory = require('../../../helpers/model-factory')
 const mongoose = require('mongoose');
-const getPaginatedTaxiiRequest = require('../../../lib/get-paginated-taxii-request');
+const getPaginatedTaxiiRequest = require('../../lib/get-paginated-taxii-request');
 const uuid4 = require('uuid/v4');
 const buildError = require('../../errors');
 

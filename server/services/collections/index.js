@@ -2,8 +2,8 @@
 
 const mongoose = require('mongoose');
 const CollectionModel = require('../../../models/collection');
-const getPaginatedTaxiiRequest = require('../../../lib/get-paginated-taxii-request');
-const ModelFactory = require('../../../lib/model-factory');
+const getPaginatedTaxiiRequest = require('../../lib/get-paginated-taxii-request');
+const ModelFactory = require('../../../helpers/model-factory');
 const config = require('../../../configs');
 const buildError = require('../../errors');
 

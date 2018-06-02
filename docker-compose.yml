@@ -46,23 +46,29 @@ services:
     networks:
       - taxii_bridge
     dns: 8.8.8.8
-
-  mongo-seed:
-    container_name: mongo-seed
-    image: mongo
-    depends_on:
-      - sra-taxii2-mongo
+  
+  sra-taxii2-redis:
+    container_name: sra-taxii2-redis
+    image: redis
     volumes:
-      - ./seed-data:/seed-data:z
+      - ./redisData:/data
     ports: 
-      - "27020:27017"
-    #command:
-    #  /seed-data/import.sh
+      - "6500:6379"
     networks:
       - taxii_bridge
-    links:
-      - sra-taxii2-mongo
     dns: 8.8.8.8
+  
+#  sra-taxii2-server-queue:
+#    container_name: sra-taxii2-server-queue
+#    build:
+#      context: ../sra-taxii2-server-queue
+#    depends_on:
+#      - sra-taxii2-redis
+#      - sra-taxii2-server
+#    restart: always
+#    volumes:
+#      - ../sra-taxii2-server-queue:/usr/src/app/
+#      - /usr/src/app/node_modules
 
 networks:
   taxii_bridge: 

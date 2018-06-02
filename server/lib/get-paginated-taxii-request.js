@@ -1,5 +1,5 @@
-const config = require('../configs');
-const buildError = require('../server/errors')
+const config = require('../../configs');
+const buildError = require('../errors')
 
 const getPaginatedTaxiiRequest = async (req, res, next, PaginateModel, mongooseQuery = {}, paginationParams = {}, dataTransformFn = null) => {
     let paginationLimit = (req.range.last-req.range.first > config.paginationLimit-1) ?  
