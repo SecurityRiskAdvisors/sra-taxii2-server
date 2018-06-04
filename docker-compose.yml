@@ -11,6 +11,7 @@ services:
       - ./:/usr/src/app/
       - /usr/src/app/node_modules
       - /opt/taxii/certs:/opt/taxii/certs
+      - /opt/taxii/filetemp:/opt/taxii/filetemp
     ports:
       - "3002:3000"
       - "3003:3001"
@@ -58,17 +59,21 @@ services:
       - taxii_bridge
     dns: 8.8.8.8
   
-#  sra-taxii2-server-queue:
-#    container_name: sra-taxii2-server-queue
-#    build:
-#      context: ../sra-taxii2-server-queue
-#    depends_on:
-#      - sra-taxii2-redis
-#      - sra-taxii2-server
-#    restart: always
-#    volumes:
-#      - ../sra-taxii2-server-queue:/usr/src/app/
-#      - /usr/src/app/node_modules
+  sra-taxii2-server-queue:
+    container_name: sra-taxii2-server-queue
+    build:
+      context: ../sra-taxii2-server-queue
+    depends_on:
+      - sra-taxii2-redis
+      - sra-taxii2-server
+    restart: always
+    volumes:
+      - ../sra-taxii2-server-queue:/usr/src/app/
+      - /usr/src/app/node_modules
+      - /opt/taxii/filetemp:/opt/taxii/filetemp
+    networks:
+      - taxii_bridge
+    dns: 8.8.8.8
 
 networks:
   taxii_bridge: 

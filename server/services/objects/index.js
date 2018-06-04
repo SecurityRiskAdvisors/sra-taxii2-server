@@ -5,20 +5,12 @@ const mongoose = require('mongoose');
 const getPaginatedTaxiiRequest = require('../../lib/get-paginated-taxii-request');
 const uuid4 = require('uuid/v4');
 const buildError = require('../../errors');
+const config = require('../../../configs');
+const Queue = require('bull');
+const fs = require('fs');
+const util = require('util');
 
-const mockPostObjectsResponse = {
-    "id": "2d086da7-4bdc-4f91-900e-d77486753710",
-    "status": "pending",
-    "request_url": "https://example.com/api1/collections/91a7b528-80eb-42ed-a74dc6fbd5a26116/objects",
-    "request_timestamp": "2016-11-02T12:34:34.12345Z",
-    "total_count": 4,
-    "success_count": 1,
-    "successes": [
-    "indicator--c410e480-e42b-47d1-9476-85307c12bcbf"
-    ],
-    "failure_count": 0,
-    "pending_count": 3
-};
+const writefile = util.promisify(fs.writeFile);
 
 const getObjects = (ModelFactory) => async (req, res, next) => {
 
@@ -90,9 +82,42 @@ const getObjectById = async(req, res, next) => {
 
 }
 
-// @TODO - not implemented
-const postObjects = (req, res) => {
-    res.send(mockPostObjectsResponse);
+const postObjects = async (req, res, next) => {
+    const uuid = uuid4();
+    console.log("body: ", req.body);
+    console.log("has type: ", req.body.hasOwnProperty('type'));
+    if(req.body.hasOwnProperty('type') && req.body.type == 'bundle') {
+        let fileName = uuid + '.json';
+        console.log(req.params.apiRootId, req.params.collectionName, fileName);
+
+        await writefile(config.tempFileDir + '/' + fileName, JSON.stringify(req.body));
+        let importStixQueue = new Queue('importStix2', {redis: {port: 6379, host: 'sra-taxii2-redis'}});
+        let jobResult = await importStixQueue.add('importStix2',{
+            apiRoot: req.params.apiRootId,
+            collection: req.params.collectionName,
+            file: fileName
+        }, {jobId: uuid});
+
+        let requestUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+        let currentTime = new Date();
+
+        res.data = {
+            "id": uuid,
+            "status": "pending",
+            "request_url": requestUrl,
+            "request_timestamp": currentTime.toISOString(),
+            "total_count": req.body.objects.length,
+            "success_count": 0,
+            "successes": [],
+            "failure_count": 0,
+            "pending_count": req.body.objects.length
+        };
+        console.log("result: ", jobResult);
+        
+    } else {
+        next(buildError(422, "not a valid STIX 2.0 bundle"));
+    }
+    return next();
 }
 
 module.exports = {

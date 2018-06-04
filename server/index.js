@@ -73,7 +73,7 @@ module.exports = function() {
             }
         ));
           
-        server.use(bodyParser.json());
+        server.use(bodyParser.json({ type: '*/*' }));
 
         server.engine('.hbs', expressHandlebars({
             defaultLayout: 'default',

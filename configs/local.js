@@ -13,7 +13,8 @@ const localConfig = {
     taxiiContentType: 'application/vnd.oasis.taxii+json; version=2.0',
     paginationLimit: 100,
     managerUrl: 'https://sra-taxii2-manager-server:4001',
-    jobQueueDb: 'taxii2jobs'
+    jobQueueDb: 'taxii2jobs',
+    tempFileDir: '/opt/taxii/filetemp'
 };
 
 module.exports = localConfig;

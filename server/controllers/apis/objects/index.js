@@ -42,6 +42,10 @@ router.get('/',
 );
 
 // @TODO - implementation unfinished
-router.post('/', objectsService.postObjects, suggestContentType());
+router.post('/', 
+    objectsService.postObjects, 
+    suggestContentType(),
+    setRenderDetail('Object Status')
+);
 
 module.exports = router;
