@@ -84,11 +84,9 @@ const getObjectById = async(req, res, next) => {
 
 const postObjects = async (req, res, next) => {
     const uuid = uuid4();
-    console.log("body: ", req.body);
-    console.log("has type: ", req.body.hasOwnProperty('type'));
+
     if(req.body.hasOwnProperty('type') && req.body.type == 'bundle') {
         let fileName = uuid + '.json';
-        console.log(req.params.apiRootId, req.params.collectionName, fileName);
 
         await writefile(config.tempFileDir + '/' + fileName, JSON.stringify(req.body));
         let importStixQueue = new Queue('importStix2', {redis: {port: 6379, host: 'sra-taxii2-redis'}});
