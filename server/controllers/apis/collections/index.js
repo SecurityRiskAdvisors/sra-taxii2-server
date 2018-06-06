@@ -2,7 +2,6 @@
 
 const
     express = require('express'),
-    config = require('../../../../configs'),
     collectionsService = require('../../../services/collections'),
     setRenderDetail = require('../../../middleware/set-render-detail'),
     suggestContentType = require('../../../middleware/suggest-content-type'),
@@ -29,7 +28,7 @@ router.get('/:collectionName/manifest',
     }),
     range({
         accept: 'items',
-        limit: config.paginationLimit,
+        limit: process.env.PAGINATION_LIMIT,
     }),
     collectionsService.getCollectionManifestByName, 
     suggestContentType(), 
@@ -47,7 +46,7 @@ router.get('/',
     // This is configured globally for now but it may be possible to set it up on a per api-root or collection basis.
     range({
         accept: 'items',
-        limit: config.paginationLimit,
+        limit: process.env.PAGINATION_LIMIT,
     }),
     collectionsService.getCollections, 
     suggestContentType(), 

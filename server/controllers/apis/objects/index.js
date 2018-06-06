@@ -4,7 +4,6 @@ const
     express = require('express'),
     objectsService = require('../../../services/objects'),
     setRenderDetail = require('../../../middleware/set-render-detail'),
-    config = require('../../../../configs'),
     suggestContentType = require('../../../middleware/suggest-content-type'),
     getAllFiltersFromParams = require('../../../middleware/get-all-filters-from-params'),
     range = require('express-range');
@@ -23,7 +22,7 @@ router.get('/:objectId',
         match: ['version']
     }, {'id': 'objectId'}),
     objectsService.getObjectById, 
-    suggestContentType(config.stixContentType), 
+    suggestContentType(process.env.STIX_CONTENT_TYPE), 
     setRenderDetail('Object Detail')
 );
 
@@ -34,14 +33,13 @@ router.get('/',
     }),
     range({
         accept: 'items',
-        limit: config.paginationLimit,
+        limit: process.env.PAGINATION_LIMIT,
     }),
     objectsService.getObjects, 
-    suggestContentType(config.stixContentType), 
+    suggestContentType(process.env.STIX_CONTENT_TYPE), 
     setRenderDetail('Objects')
 );
 
-// @TODO - implementation unfinished
 router.post('/', 
     objectsService.postObjects, 
     suggestContentType(),

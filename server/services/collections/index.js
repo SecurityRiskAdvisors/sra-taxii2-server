@@ -1,10 +1,9 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const CollectionModel = require('../../../models/collection');
+const CollectionModel = require('sra-taxii2-server-model/models/collection');
 const getPaginatedTaxiiRequest = require('../../lib/get-paginated-taxii-request');
-const ModelFactory = require('../../../helpers/model-factory');
-const config = require('../../../configs');
+const ModelFactory = require('sra-taxii2-server-model/model-factory');
 const buildError = require('../../errors');
 
 const collectionsDataTransformer = (req, collectionMongoResult) => {
@@ -43,7 +42,6 @@ const getCollectionByName = async (req, res, next) => {
 
     try {
         let collectionResult = await CollectionModel.findOne({id: collectionName});
-
         let collectionResponse = collectionsDataTransformer(req, [collectionResult.toJSON()] );
         res.data = collectionResponse.collections[0];
         
@@ -60,8 +58,7 @@ const getCollectionManifestByName = async (req, res, next) => {
     // into getPaginatedTaxiiRequest, quick forked the project and added offset, should do a pull req later
     // maybe see if we can get them roughly equivalent
     try {
-        let models = ModelFactory(req.params.apiRootId, req.params.collectionName);
-
+        let models = await ModelFactory.buildTaxii2Models(req.params.apiRootId, req.params.collectionName, process.env.CONNECTION_STRING);
         let filteredQuery = (Object.prototype.hasOwnProperty.call(res.locals, 'taxiiMongooseFilter')) ? res.locals.taxiiMongooseFilter : {};
 
         let aggregate = models.object.aggregate();
@@ -71,8 +68,9 @@ const getCollectionManifestByName = async (req, res, next) => {
             versions: { $push: "$created" }
         }).sort({ date_added: 1});
 
-        let paginationLimit = (req.range.last-req.range.first > config.paginationLimit-1) ?  
-            config.paginationLimit-1 : (req.range.last-req.range.first);
+        let envPaginationLimit = parseInt(process.env.PAGINATION_LIMIT);
+        let paginationLimit = isNaN(req.range.last) || isNaN(req.range.first) || (req.range.last-req.range.first > (envPaginationLimit - 1)) ?  
+            envPaginationLimit - 1 : (req.range.last-req.range.first);
 
         var options = { offset : req.range.first, limit : paginationLimit };
 

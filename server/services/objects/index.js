@@ -1,11 +1,10 @@
 'use strict';
 
-const ModelFactory = require('../../../helpers/model-factory')
+const ModelFactory = require('sra-taxii2-server-model/model-factory');
 const mongoose = require('mongoose');
 const getPaginatedTaxiiRequest = require('../../lib/get-paginated-taxii-request');
 const uuid4 = require('uuid/v4');
 const buildError = require('../../errors');
-const config = require('../../../configs');
 const Queue = require('bull');
 const fs = require('fs');
 const util = require('util');
@@ -17,10 +16,11 @@ const getObjects = (ModelFactory) => async (req, res, next) => {
     // Using the model factory here because we want to cache and share mongo connections - each api root is its own db which means a new connect
 
     try {
-        let models = ModelFactory(req.params.apiRootId, req.params.collectionName);
+        let models = await ModelFactory.buildTaxii2Models(req.params.apiRootId, req.params.collectionName, process.env.CONNECTION_STRING);
 
         // Express res and req objects have null prototypes so they don't get hasOwnProperty
         let query = (Object.prototype.hasOwnProperty.call(res.locals, 'taxiiMongooseFilter')) ? res.locals.taxiiMongooseFilter : {};
+
         let objectsResponse =  await getPaginatedTaxiiRequest(
             req, 
             res, 
@@ -49,11 +49,11 @@ const getObjects = (ModelFactory) => async (req, res, next) => {
     }
 }
 
-const getObjectById = async(req, res, next) => {
+const getObjectById = async (req, res, next) => {
     let paramId = req.params.objectId || 0;
 
     try {
-        let models = ModelFactory(req.params.apiRootId, req.params.collectionName);
+        let models = await ModelFactory.buildTaxii2Models(req.params.apiRootId, req.params.collectionName, process.env.CONNECTION_STRING);
         let query = (Object.prototype.hasOwnProperty.call(res.locals, 'taxiiMongooseFilter')) ? res.locals.taxiiMongooseFilter : {id:paramId};
         let objectResult = await models.object.find(query).select('-_id -__v -updatedAt -createdAt');
         let bundleType = '';
@@ -88,7 +88,7 @@ const postObjects = async (req, res, next) => {
     if(req.body.hasOwnProperty('type') && req.body.type == 'bundle') {
         let fileName = uuid + '.json';
 
-        await writefile(config.tempFileDir + '/' + fileName, JSON.stringify(req.body));
+        await writefile(process.env.TEMP_FILE_DIR + '/' + fileName, JSON.stringify(req.body));
         let importStixQueue = new Queue('importStix2', {redis: {port: 6379, host: 'sra-taxii2-redis'}});
         let jobResult = await importStixQueue.add('importStix2',{
             apiRoot: req.params.apiRootId,

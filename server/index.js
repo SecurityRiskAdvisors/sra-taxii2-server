@@ -17,23 +17,25 @@ const
     errorHandler = require('./middleware/error-handler');
 // @TODO - add and use helmet for HSTS and stuff https://github.com/helmetjs/helmet
 
+require('dotenv').config();
+
 module.exports = function() {
     let server = express(),
         create,
         start;
 
-    create = function(config) {
+    create = function() {
         let routes = require('./routes');
 
-        server.set('env', config.env);
-        server.set('httpPort', config.httpPort);
-        server.set('httpsPort', config.httpsPort);
-        server.set('hostname', config.hostname);
-        server.set('viewDir', config.viewDir);
+        server.set('env', process.env.ENVIRONMENT);
+        server.set('httpPort', process.env.HTTP_PORT);
+        server.set('httpsPort', process.env.HTTPS_PORT);
+        server.set('hostname',  process.env.HOSTNAME);
+        server.set('viewDir', process.env.VIEW_DIR);
         // @TODO - remove dupe after helmet
         server.disable('x-powered-by');
 
-        let sslCertDir = config.certDir.replace(/^(.+?)\/*?$/, "$1");
+        let sslCertDir = process.env.CERT_DIR.replace(/^(.+?)\/*?$/, "$1");
         server.set('sslOptions', {
             key: fs.readFileSync(sslCertDir + '/key.pem'),
             cert: fs.readFileSync(sslCertDir + '/cert.pem'),
@@ -41,7 +43,7 @@ module.exports = function() {
         });
 
         // @TODO - this needs try catch with repeats.  Mongo isn't available when server starts 
-        mongooseConnect(config.connectionString, config.confDb, 4000);
+        mongooseConnect(process.env.CONNECTION_STRING, process.env.CONF_DB, 4000);
 
         // @TODO - make debugging more env friendly
         /*mongoose.set('debug', function (collectionName, method, query, doc) {
@@ -59,7 +61,7 @@ module.exports = function() {
                     const agent = new https.Agent({  
                         rejectUnauthorized: false
                     });
-                    const loginResult = await axios.post(config.managerUrl + '/taxii2manager/v1/auth/login', {
+                    const loginResult = await axios.post(process.env.MANAGER_URL + '/taxii2manager/v1/auth/login', {
                         email: username,
                         password: password
                     }, { httpsAgent: agent });
@@ -78,7 +80,7 @@ module.exports = function() {
         server.engine('.hbs', expressHandlebars({
             defaultLayout: 'default',
             helpers: { json: function (context) { return JSON.stringify(context); } },
-            layoutsDir: config.viewDir + '/layouts',
+            layoutsDir: process.env.VIEW_DIR + '/layouts',
             extname: '.hbs'
         }));
 

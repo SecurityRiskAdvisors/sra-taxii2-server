@@ -1,7 +1,6 @@
 const setRenderDetail = function (title, templateLocation = null) {
 
-    // @TODO - grab this from config
-    let renderTemplate = 'base-json';
+    let renderTemplate = process.env.BASE_TEMPLATE;
     if(templateLocation !== null) {
         renderTemplate = templateLocation;
     }

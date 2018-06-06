@@ -1,5 +1,3 @@
-const config = require('../../configs');
-
 // Discussion - should this remain distinct middleware or does it make sense to call from service, passing
 // more implementation details to allow for more flexible filtering?
 

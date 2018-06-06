@@ -1,12 +1,12 @@
-const config = require('../../configs');
 const buildError = require('../errors')
 
 const getPaginatedTaxiiRequest = async (req, res, next, PaginateModel, mongooseQuery = {}, paginationParams = {}, dataTransformFn = null) => {
-    let paginationLimit = (req.range.last-req.range.first > config.paginationLimit-1) ?  
-        config.paginationLimit-1 : (req.range.last-req.range.first);
+    let envPaginationLimit = parseInt(process.env.PAGINATION_LIMIT);
+    let paginationLimit = isNaN(req.range.last) || isNaN(req.range.first) || (req.range.last-req.range.first > (envPaginationLimit - 1)) ?  
+        envPaginationLimit - 1 : (req.range.last-req.range.first);
 
     try {
-        let collectionsResult = await PaginateModel.paginate(mongooseQuery,
+        let paginatedQueryResult = await PaginateModel.paginate(mongooseQuery,
             // pagination details
             Object.assign(paginationParams, {
                 lean: true,
@@ -14,18 +14,18 @@ const getPaginatedTaxiiRequest = async (req, res, next, PaginateModel, mongooseQ
                 limit: paginationLimit
             })
         );
-        if(collectionsResult.offset > collectionsResult.total) {
+        if(paginatedQueryResult.offset > paginatedQueryResult.total) {
             res.removeHeader("Content-Range");
             return res.status(416).send();
         }
 
         res.range({
-            first: collectionsResult.offset,
-            last: collectionsResult.docs.length + collectionsResult.offset,
-            length: collectionsResult.total
+            first: paginatedQueryResult.offset,
+            last: paginatedQueryResult.docs.length + paginatedQueryResult.offset,
+            length: paginatedQueryResult.total
           });
         
-        let data = (typeof(dataTransformFn) === 'function') ? dataTransformFn(req, collectionsResult.docs) : collectionsResult.docs;
+        let data = (typeof(dataTransformFn) === 'function') ? dataTransformFn(req, paginatedQueryResult.docs) : paginatedQueryResult.docs;
         
         return data;
     } 

@@ -13,15 +13,16 @@
   ],
   "author": "Galen Fisher <galen.fisher@securityriskadvisors.com>",
   "license": "MIT",
-  "repository" : { 
-      "type" : "git",
-      "url" : "https://github.com/SecurityRiskAdvisors/sra-taxii2-server.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SecurityRiskAdvisors/sra-taxii2-server.git"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "bull": "^3.4.2",
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "express-range": "^2.0.1",
@@ -32,7 +33,11 @@
     "mongoose-paginate": "^5.0.3",
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
+    "sra-taxii2-server-model": "^1.0.3",
     "uuid": "^3.2.1",
     "verror": "^1.10.0"
+  },
+  "devDependencies": {
+    "jest": "^23.1.0"
   }
 }

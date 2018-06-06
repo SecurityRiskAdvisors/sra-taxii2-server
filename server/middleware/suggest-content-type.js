@@ -1,8 +1,6 @@
-const config = require('../../configs');
-
 const suggestContentType = function (contentType = null) {
 
-    let headerContentType = config.taxiiContentType;
+    let headerContentType = process.env.TAXII_CONTENT_TYPE;
 
     if(contentType) {
         headerContentType = contentType
