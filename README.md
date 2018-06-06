@@ -78,7 +78,7 @@ The manager server API supports some CRUD operations for accounts and collection
 
 ## Features ##
 
-Full Taxii 2.0 spec minus Status operation, and complete error-handling related to content types and other scenarios.  Missing full auth capabilities.
+Full Taxii 2.0 spec minus complete error-handling related to content types and other scenarios.  Missing full auth capabilities and some configurability.
 
 The POST side to add STIX 2 objects to a collection (and status to check on the progress of imports) is handled by a deferred job queue at https://github.com/SecurityRiskAdvisors/sra-taxii2-server-queue.  The queue functionality is roughed-in and was done this way to support larger STIX bundle uploads from other REST operations in the future.  The queue streams in files and processes them piecemeal rather than blocking to accept and parse a huge upload in memory.  
 
