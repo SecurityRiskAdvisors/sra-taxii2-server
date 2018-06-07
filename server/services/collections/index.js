@@ -29,7 +29,18 @@ const collectionsDataTransformer = (req, collectionMongoResult) => {
 const getCollections = async (req, res, next) => {
     try {
         // {} is the query
-        res.data = await getPaginatedTaxiiRequest(req, res, next, CollectionModel, {}, {sort: { name: 1}}, collectionsDataTransformer);
+        res.data = await getPaginatedTaxiiRequest(
+            req, 
+            res, 
+            next, 
+            CollectionModel, 
+            {}, 
+            {
+                sort: { name: 1},
+                leanWithId: false,
+                select: '-_id -__v -updatedAt -createdAt'
+            }, 
+            collectionsDataTransformer);
         return next()
     } 
     catch(err) {
@@ -41,7 +52,7 @@ const getCollectionByName = async (req, res, next) => {
     let collectionName = req.params.collectionName || 0;
 
     try {
-        let collectionResult = await CollectionModel.findOne({id: collectionName});
+        let collectionResult = await CollectionModel.findOne({id: collectionName}).select('-__v -updatedAt -createdAt');
         let collectionResponse = collectionsDataTransformer(req, [collectionResult.toJSON()] );
         res.data = collectionResponse.collections[0];
         

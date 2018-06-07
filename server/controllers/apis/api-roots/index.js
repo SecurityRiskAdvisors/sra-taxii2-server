@@ -8,7 +8,7 @@ const
 
 let router = express.Router();
 
-router.get('/', apiRootService.getApiRoots, suggestContentType(), setRenderDetail('API Roots'));
+//router.get('/', apiRootService.getApiRoots, suggestContentType(), setRenderDetail('API Roots'));
 router.get('/:apiRootId', apiRootService.getApiRootById, suggestContentType(), setRenderDetail('API Root Detail'));
 
 module.exports = router;

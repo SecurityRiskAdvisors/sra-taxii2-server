@@ -16,6 +16,16 @@ function init(server) {
         // @TODO - add userAuthorize at each router endpoint 
     );
 
+    let unless = (path, middleware) => {
+        return function(req, res, next) {
+            if (path === req.path) {
+                return next();
+            } else {
+                return middleware(req, res, next);
+            }
+        };
+    };
+
     // 
     /* @TODO Discussion: is adding basic auth middleware here polluting our routing?  If so, maybe we want to 
         move it out somewhere else, making basic auth only apply to the taxii2 specific endpoints.
@@ -25,9 +35,8 @@ function init(server) {
         gets called at the router.get('*') level
     */
 
+    server.use(unless('/taxii', apiRoute));  
     server.use('/taxii', discoveryRoute);
-    // this must be last because TAXII 2.0 API roots are grey goo and want to repurpose every request as a param
-    server.use('/', apiRoute);  
 }
 
 module.exports = {
