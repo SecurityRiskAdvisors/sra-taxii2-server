@@ -22,6 +22,7 @@
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "bull": "^3.4.2",
+    "connect-roles": "^3.1.2",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",

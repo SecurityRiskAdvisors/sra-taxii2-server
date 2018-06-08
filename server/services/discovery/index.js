@@ -4,7 +4,7 @@ const buildError = require('../../errors');
 const ApiRootModel = require('sra-taxii2-server-model/models/apiroot');
 
 const getDiscoveryData = async (req, res, next) => {
-    
+
     try {
         let apiRootsResult = await ApiRootModel.find({});
         let defaultApiRoot = apiRootsResult.filter(x => x.default);

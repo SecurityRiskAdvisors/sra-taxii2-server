@@ -6,7 +6,8 @@ const
     setRenderDetail = require('../../../middleware/set-render-detail'),
     suggestContentType = require('../../../middleware/suggest-content-type'),
     getAllFiltersFromParams = require('../../../middleware/get-all-filters-from-params'),
-    range = require('express-range');
+    range = require('express-range'),
+    roles = require('../../../middleware/roles');
 
 let router = express.Router({mergeParams: true});
 
@@ -17,6 +18,7 @@ let router = express.Router({mergeParams: true});
 
 // @TODO - hardcoded STIX now, but these need to rely on collection content type
 router.get('/:objectId', 
+    roles.can('read objects from collection'),
     getAllFiltersFromParams({
         added_after: true,
         match: ['version']
@@ -27,6 +29,7 @@ router.get('/:objectId',
 );
 
 router.get('/',
+    roles.can('read objects from collection'),
     getAllFiltersFromParams({
         added_after: true,
         match: ['id', 'type', 'version']
@@ -41,6 +44,7 @@ router.get('/',
 );
 
 router.post('/', 
+    roles.can('write objects to collection'),
     objectsService.postObjects, 
     suggestContentType(),
     setRenderDetail('Object Status')

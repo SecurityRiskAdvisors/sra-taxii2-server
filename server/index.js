@@ -13,6 +13,7 @@ const
     https = require('https'),
     axios = require('axios'),
     renderResponse = require('./middleware/render-response'),
+    roles = require('./middleware/roles'),
     buildError = require('./errors'),
     errorHandler = require('./middleware/error-handler');
 // @TODO - add and use helmet for HSTS and stuff https://github.com/helmetjs/helmet
@@ -76,6 +77,7 @@ module.exports = function() {
         ));
           
         server.use(bodyParser.json({ type: '*/*' }));
+        server.use(roles.middleware());
 
         server.engine('.hbs', expressHandlebars({
             defaultLayout: 'default',
