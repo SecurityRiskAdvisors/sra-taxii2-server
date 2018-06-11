@@ -2,6 +2,7 @@ const ConnectRoles = require('connect-roles');
 
 let roles = new ConnectRoles();
 
+// @TODO - abstract these, they may be used elsewhere
 roles.use('read objects from collection', (req, action) => {    
     // reliant on apiRootId and collectionName existing in params for now
     if(!req.params.apiRootId || !req.params.collectionName) {
