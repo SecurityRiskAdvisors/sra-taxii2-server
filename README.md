@@ -50,6 +50,7 @@ mkdir sra-taxii2-server-queue
 cd sra-taxii2-server-queue
 git clone https://github.com/SecurityRiskAdvisors/sra-taxii2-server-queue.git .
 cd ..
+```
 
 **Create self-signed certificates for dev/testing:**
 
