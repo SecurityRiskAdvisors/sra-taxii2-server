@@ -42,12 +42,22 @@ git clone https://github.com/SecurityRiskAdvisors/sra-taxii2-manager-server.git 
 cd ..
 ```
 
+**Clone taxii 2 server queue into its own subdirectory:**
+
+(Make sure you're in the taxii2 directory you created above)
+```bash
+mkdir sra-taxii2-server-queue
+cd sra-taxii2-server-queue
+git clone https://github.com/SecurityRiskAdvisors/sra-taxii2-server-queue.git .
+cd ..
+```
+
 **Create self-signed certificates for dev/testing:**
 
 **Note**: The project currently expects a cert passphrase of testpw.  Change this in the app.js/index.js of the base server for the manager and taxii server project if you want to use a different passphrase for testing.  Just a reminder - this project is not production ready.  This setup is for development and testing.
 
 ```bash
-sudo mkdir /opt/taxii/certs
+sudo mkdir –p /opt/taxii/certs
 cd /opt/taxii/certs
 sudo openssl req -x509 -newkey rsa:2048 -keyout keytmp.pem -out cert.pem -days 365
 sudo openssl rsa -in keytmp.pem -out key.pem
