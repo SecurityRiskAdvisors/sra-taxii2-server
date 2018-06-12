@@ -75,13 +75,14 @@ const getCollectionManifestByName = async (req, res, next) => {
         let aggregate = models.object.aggregate();
         aggregate.match(filteredQuery).group({
             _id: "$id",
+            id: { $first: "$id" },
             date_added: { $first: "$createdAt" },
             versions: { $push: "$created" }
         }).sort({ date_added: 1});
 
         let envPaginationLimit = parseInt(process.env.PAGINATION_LIMIT);
         let paginationLimit = isNaN(req.range.last) || isNaN(req.range.first) || (req.range.last-req.range.first > (envPaginationLimit - 1)) ?  
-            envPaginationLimit - 1 : (req.range.last-req.range.first);
+            envPaginationLimit : (req.range.last-req.range.first) + 1;
 
         var options = { offset : req.range.first, limit : paginationLimit };
 
@@ -90,16 +91,21 @@ const getCollectionManifestByName = async (req, res, next) => {
         let objectsData = [];
         if(objectsResponse.data.length > 0) {
             objectsData = objectsResponse.data.map((val, index) => {
+                delete val._id;
                 return Object.assign(val, {"media_types": ["application/vnd.oasis.stix+json; version=2.0"]});
             });
         }
 
+        let last = objectsData.length -1 + req.range.first;
         res.range({
             first: req.range.first,
-            last: objectsData.length + req.range.first,
+            last: last,
             length: objectsResponse.totalCount
         });
 
+        if(last < objectsResponse.totalCount-1) {
+            res.status(206);
+        }
         res.data = {
             objects: objectsData
         };
@@ -107,6 +113,7 @@ const getCollectionManifestByName = async (req, res, next) => {
         return next();
     } 
     catch(err) {
+        console.log(err);
         next(buildError(500, err));
     }
 
