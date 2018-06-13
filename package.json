@@ -20,6 +20,7 @@
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "express-range": "^2.0.1",
+    "json-formatter-js": "^2.2.0",
     "lodash": "^4.17.5",
     "mocha": "^4.1.0",
     "mongoose": "^4.13.12",
