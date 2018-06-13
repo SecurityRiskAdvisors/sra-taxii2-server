@@ -83,7 +83,7 @@ PAGINATION_LIMIT=${PAGINATION_LIMIT:-"100"}
 read -p "Server Title (displayed at discovery operation) [SRA TAXII2 Server]: " TAXII_TITLE
 TAXII_TITLE=${TAXII_TITLE:-"SRA TAXII2 Server"}
 
-read -p "Server Description (displayed at discovery operation) [Base TAXII2 Server for development and integration with other tooling]: " TAXII_DESCRIPTON
+read -p "Server Description (displayed at discovery operation) [Base TAXII2 Server for development and integration with other tooling]: " TAXII_DESCRIPTION
 TAXII_DESCRIPTION=${TAXII_DESCRIPTION:-"Base TAXII2 Server for development and integration with other tooling"}
 
 read -p "Server Contact (displayed at discovery operation) [https://github.com/SecurityRiskAdvisors/sra-taxii2-server]: " TAXII_CONTACT
