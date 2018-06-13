@@ -37,7 +37,7 @@ module.exports = function() {
         server.set('sslOptions', {
             key: fs.readFileSync(sslCertDir + '/key.pem'),
             cert: fs.readFileSync(sslCertDir + '/cert.pem'),
-            passphrase: 'testpw'
+            passphrase: 'yellowTaxii'
         });
 
         // @TODO - this needs try catch with repeats.  Mongo isn't available when server starts 
@@ -74,7 +74,7 @@ module.exports = function() {
         ));
           
         server.use(bodyParser.json());
-
+        server.use(express.static(__dirname+'/public'));    
         server.engine('.hbs', expressHandlebars({
             defaultLayout: 'default',
             helpers: { json: function (context) { return JSON.stringify(context); } },
