@@ -187,6 +187,20 @@ describe('TAXII2 Basic API Functionality', () => {
         expect(response.body['objects'].length).toEqual(11);
     });
 
+    test('it handles the taxii range header spec that doesnt exactly match RFC7233', async () => {
+        const response = await request(url)
+            .get('/apiroot1/collections/9ee8a9b3-da1b-45d1-9cf6-8141f7039f82/objects')
+            .set('Accept', 'application/vnd.oasis.stix+json; version=2.0,application/vnd.oasis.taxii+json; version=2.0')
+            .set('Range', 'items 40-50')
+            .ca(cert)
+            .auth(defaultUser, defaultPass);
+
+        expect(response.statusCode).toBe(206);
+
+        expect(response.header['content-range']).toContain('items 40-50');
+        expect(response.body['objects'].length).toEqual(11);
+    });
+
     test('it filters the results for collection objects by type', async () => {
         const response = await request(url)
             .get('/apiroot1/collections/9ee8a9b3-da1b-45d1-9cf6-8141f7039f82/objects?match[type]=attack-pattern')

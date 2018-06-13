@@ -7,7 +7,8 @@ const
     suggestContentType = require('../../../middleware/suggest-content-type'),
     getAllFiltersFromParams = require('../../../middleware/get-all-filters-from-params'),
     range = require('express-range'),
-    roles = require('../../../middleware/roles');
+    roles = require('../../../middleware/roles'),
+    mangleTaxiiRange = require('../../../middleware/mangle-taxii-range');
 
 let router = express.Router({mergeParams: true});
 
@@ -34,6 +35,7 @@ router.get('/',
         added_after: true,
         match: ['id', 'type', 'version']
     }),
+    mangleTaxiiRange,
     range({
         accept: 'items',
         limit: process.env.PAGINATION_LIMIT,

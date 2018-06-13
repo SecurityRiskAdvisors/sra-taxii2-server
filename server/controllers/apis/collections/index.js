@@ -7,7 +7,8 @@ const
     suggestContentType = require('../../../middleware/suggest-content-type'),
     getAllFiltersFromParams = require('../../../middleware/get-all-filters-from-params'),
     passport = require('passport'),
-    range = require('express-range');
+    range = require('express-range'),
+    mangleTaxiiRange = require('../../../middleware/mangle-taxii-range');
     
 
 let router = express.Router({mergeParams: true});
@@ -26,6 +27,7 @@ router.get('/:collectionName/manifest',
     getAllFiltersFromParams({
         match: ['id', 'type', 'version']
     }),
+    mangleTaxiiRange,
     range({
         accept: 'items',
         limit: process.env.PAGINATION_LIMIT,
@@ -44,6 +46,7 @@ router.get('/:collectionName',
 router.get('/', 
     // Setup pagination.  
     // This is configured globally for now but it may be possible to set it up on a per api-root or collection basis.
+    mangleTaxiiRange,
     range({
         accept: 'items',
         limit: process.env.PAGINATION_LIMIT,
