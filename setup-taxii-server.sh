@@ -69,9 +69,3 @@ openssl req -new -config $INSTALL_DIR/sra-taxii2-server/dev/taxii-server.cnf -ke
 openssl x509 -req -extfile $INSTALL_DIR/sra-taxii2-server/dev/taxii-server.cnf -days 999 -passin "pass:password" -in $TAXII_CERT_DIR/taxii-server-csr.pem -CA $TAXII_CERT_DIR/ca-crt.pem -CAkey $TAXII_CERT_DIR/ca-key.pem -CAcreateserial -out $TAXII_CERT_DIR/taxii-server-crt.pem
 
 chown $RUN_USER:$RUN_USER $INSTALL_DIR -R
-
-#if (( ("$year" % 400) == "0" )) || (( ("$year" % 4 == "0") && ("$year" % 100 != "0") )); then
-#  echo "$year is a leap year."
-#else
-#  echo "This is not a leap year."
-#fi
