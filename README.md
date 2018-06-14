@@ -10,7 +10,7 @@ Uses Node.js with MongoDB backend.
 
 #### Requirements ####
 * Modern Linux installation (preferably Ubuntu, Mint, Debian, Manjaro, Arch, CentOS or something similar) with sudo permissions
-* Packages
+* Expects these installed packages:
   * docker
   * docker-compose
   * openssl
