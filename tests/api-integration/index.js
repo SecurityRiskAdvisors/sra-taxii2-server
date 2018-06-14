@@ -7,7 +7,7 @@ const sslCertDir = process.env.CERT_DIR.replace(/^(.+?)\/*?$/, "$1");
 const cert = fs.readFileSync(sslCertDir + '/ca-crt.pem');
 
 // change the certs/ca and hostname to docker container name
-const url = 'https://localhost:3001';
+const url = 'https://sra-taxii2-server:3001';
 
 const defaultUser = 'admin@example.com';
 const defaultPass = 'admin';
