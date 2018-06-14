@@ -14,7 +14,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 RUN_USER="$(who|awk '{print $1}')"
-TAXII_CERT_DIR=/opt/taxii/certs/temp
+TAXII_CERT_DIR=/opt/taxii/certs
 
 echo "Running as sudo/root and creating project files with user privileges for $RUN_USER" 
 echo ""
