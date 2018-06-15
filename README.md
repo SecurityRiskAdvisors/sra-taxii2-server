@@ -79,6 +79,7 @@ cd ..
 
 (Make sure you're in the taxii2 directory you created above)
 ```bash
+sudo mkdir –p /opt/taxii/filetemp
 mkdir sra-taxii2-server-queue
 cd sra-taxii2-server-queue
 git clone https://github.com/SecurityRiskAdvisors/sra-taxii2-server-queue.git .
@@ -95,6 +96,11 @@ cd /opt/taxii/certs
 ```
 
 Follow the guide here: https://engineering.circle.com/https-authorized-certs-with-node-js-315e548354a2 and put all your certs in /opt/taxii/certs.  sra-taxii2-server expects taxii-server-key.pem and taxii-server-crt.pem.  sra-taxii2-manager-server expects taxii-manager-key.pem and taxii-manager-crt.pem
+
+**Build .env files or pass ENV vars into services**
+
+See the bash setup script for the env files created, build them in appropriate directories. 
+
 
 **Start the TAXII server**
 
