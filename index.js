@@ -61,7 +61,8 @@ passport.use(new BasicStrategy(
         }
     }
 ));
-  
+
+app.use(express.static(__dirname+'/public'));  
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(roles.middleware());
 
