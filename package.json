@@ -32,6 +32,7 @@
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "express-range": "^2.0.1",
+    "json-formatter-js": "^2.2.0",
     "lodash": "^4.17.5",
     "mongoose": "^5.1.4",
     "mongoose-aggregate-paginate-extend": "github:thebleucheese/mongoose-aggregate-paginate-extend",
