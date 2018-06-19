@@ -25,6 +25,7 @@ const getApiRootById = async (req, res, next) => {
             "max_content_length": 9765625
         };
         
+        res.status(200);
         return next();
     } 
     catch (err) {

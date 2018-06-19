@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = (req, res, next) => {
-    const statusCode = res.responseStatus || 200;
+    const statusCode = res.statusCode || 404;
+    res.status(statusCode);
 
     // respond with html page
     if (req.accepts('html')) {

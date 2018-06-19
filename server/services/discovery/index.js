@@ -9,6 +9,7 @@ const getDiscoveryData = async (req, res, next) => {
         let apiRootsResult = await ApiRootModel.find({});
         let defaultApiRoot = apiRootsResult.filter(x => x.default);
 
+        res.status(200);
         res.data = {
             title: process.env.TAXII_TITLE,
             description: process.env.TAXII_DESCRIPTION,

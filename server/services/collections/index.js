@@ -28,6 +28,7 @@ const collectionsDataTransformer = (req, collectionMongoResult) => {
 
 const getCollections = async (req, res, next) => {
     try {
+        res.status(200);
         // {} is the query
         res.data = await getPaginatedTaxiiRequest(
             req, 
@@ -52,6 +53,7 @@ const getCollectionByName = async (req, res, next) => {
     let collectionName = req.params.collectionName || 0;
 
     try {
+        res.status(200);
         let collectionResult = await CollectionModel.findOne({id: collectionName}).select('-__v -updatedAt -createdAt');
         let collectionResponse = collectionsDataTransformer(req, [collectionResult.toJSON()] );
         res.data = collectionResponse.collections[0];
@@ -69,6 +71,7 @@ const getCollectionManifestByName = async (req, res, next) => {
     // into getPaginatedTaxiiRequest, quick forked the project and added offset, should do a pull req later
     // maybe see if we can get them roughly equivalent
     try {
+        res.status(200);
         let models = await ModelFactory.buildTaxii2Models(req.params.apiRootId, req.params.collectionName, process.env.CONNECTION_STRING);
         let filteredQuery = (Object.prototype.hasOwnProperty.call(res.locals, 'taxiiMongooseFilter')) ? res.locals.taxiiMongooseFilter : {};
 
