@@ -16,6 +16,7 @@ const getObjects = (ModelFactory) => async (req, res, next) => {
     // Using the model factory here because we want to cache and share mongo connections - each api root is its own db which means a new connect
 
     try {
+        res.status(200);
         let models = await ModelFactory.buildTaxii2Models(req.params.apiRootId, req.params.collectionName, process.env.CONNECTION_STRING);
 
         // Express res and req objects have null prototypes so they don't get hasOwnProperty
@@ -53,6 +54,7 @@ const getObjectById = async (req, res, next) => {
     let paramId = req.params.objectId || 0;
 
     try {
+        res.status(200);
         let models = await ModelFactory.buildTaxii2Models(req.params.apiRootId, req.params.collectionName, process.env.CONNECTION_STRING);
         let query = (Object.prototype.hasOwnProperty.call(res.locals, 'taxiiMongooseFilter')) ? res.locals.taxiiMongooseFilter : {id:paramId};
         let objectResult = await models.object.find(query).select('-_id -__v -updatedAt -createdAt');
@@ -85,6 +87,7 @@ const getObjectById = async (req, res, next) => {
 const postObjects = async (req, res, next) => {
     const uuid = uuid4();
 
+    res.status(200);
     if(req.body.hasOwnProperty('type') && req.body.type == 'bundle') {
         let fileName = uuid + '.json';
 
