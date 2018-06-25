@@ -19,8 +19,12 @@ TAXII_CERT_DIR=/opt/taxii/certs
 echo "Running as sudo/root and creating project files with user privileges for $RUN_USER" 
 echo ""
 
-read -e -p "Installation directory (full path if using home dir, don't use ~) [./]: " INSTALL_DIR
-INSTALL_DIR=${INSTALL_DIR:-"./"}
+if [ -z "$1" ]; then
+    read -e -p "Installation directory (full path if using home dir, don't use ~) [./]: " INSTALL_DIR
+    INSTALL_DIR=${INSTALL_DIR:-"./"}
+else
+  INSTALL_DIR=$1
+fi
 
 if [[ $INSTALL_DIR == *~* ]]
 then
@@ -78,17 +82,33 @@ echo ""
 echo "If no errors above, code downloaded and certs generated. Starting service configuration..."
 echo ""
 
-read -p "Pagination limit (max number of results returned by operation per page) [100]: " PAGINATION_LIMIT
-PAGINATION_LIMIT=${PAGINATION_LIMIT:-"100"}
+if [ -z "$2" ]; then
+  read -p "Pagination limit (max number of results returned by operation per page) [100]: " PAGINATION_LIMIT
+  PAGINATION_LIMIT=${PAGINATION_LIMIT:-"100"}
+else
+  PAGINATION_LIMIT=$2
+fi
 
-read -p "Server Title (displayed at discovery operation) [SRA TAXII2 Server]: " TAXII_TITLE
-TAXII_TITLE=${TAXII_TITLE:-"SRA TAXII2 Server"}
+if [ -z "$3" ]; then
+  read -p "Server Title (displayed at discovery operation) [SRA TAXII2 Server]: " TAXII_TITLE
+  TAXII_TITLE=${TAXII_TITLE:-"SRA TAXII2 Server"}
+else
+  TAXII_TITLE=$3
+fi
 
-read -p "Server Description (displayed at discovery operation) [Base TAXII2 Server for development and integration with other tooling]: " TAXII_DESCRIPTION
-TAXII_DESCRIPTION=${TAXII_DESCRIPTION:-"Base TAXII2 Server for development and integration with other tooling"}
+if [ -z "$4" ]; then
+  read -p "Server Description (displayed at discovery operation) [Base TAXII2 Server for development and integration with other tooling]: " TAXII_DESCRIPTION
+  TAXII_DESCRIPTION=${TAXII_DESCRIPTION:-"Base TAXII2 Server for development and integration with other tooling"}
+else
+  TAXII_DESCRIPTION=$4
+fi
 
-read -p "Server Contact (displayed at discovery operation) [https://github.com/SecurityRiskAdvisors/sra-taxii2-server]: " TAXII_CONTACT
-TAXII_CONTACT=${TAXII_CONTACT:-"https://github.com/SecurityRiskAdvisors/sra-taxii2-server"}
+if [ -z "$5" ]; then
+  read -p "Server Contact (displayed at discovery operation) [https://github.com/SecurityRiskAdvisors/sra-taxii2-server]: " TAXII_CONTACT
+  TAXII_CONTACT=${TAXII_CONTACT:-"https://github.com/SecurityRiskAdvisors/sra-taxii2-server"}
+else
+  TAXII_CONTACT=$5
+fi
 
 cat > $INSTALL_DIR/sra-taxii2-server/.env <<EOF
 ENVIRONMENT=local
