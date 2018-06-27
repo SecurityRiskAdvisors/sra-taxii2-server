@@ -1,11 +1,10 @@
-import './index.js'
+import './renderjson.js'
 
-
-/*const formatter = new JSONFormatter(myJSON);
-
-render();
-document.appendChild("TEST");
-document.write(Date());
-console.log("help");
-*/
-
+var source = document.getElementById("raw_json");
+document.getElementById("json-tree").appendChild(
+  renderjson//.set_show_by_default(true)
+            //.set_show_to_level(2)
+            //.set_sort_objects(true)
+            .set_icons('+', '-')
+            .set_max_string_length(100)
+    (JSON.parse(source.innerText)));
