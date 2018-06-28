@@ -172,6 +172,11 @@ var module, window, define, renderjson=(function() {
         if (isempty(json, options.property_list))
             return themetext(null, my_indent, "object syntax", "{}");
 
+        if("_link_title" in json && "_link_dest" in json)    // if this is a specially constructed object for linking
+        {
+          return link(json["_link_title"], json["_link_dest"]);   //render it as a link in stead of an object
+        }
+
         return disclosure("{", options.collapse_msg(json), "}", "object", function () {
             var os = append(span("object"), themetext("object syntax", "{", null, "\n"));
             for (var k in json) var last = k;
@@ -181,6 +186,26 @@ var module, window, define, renderjson=(function() {
             for (var i in keys) {
                 var k = keys[i];
                 if (!(k in json)) continue;
+
+            if((k=="title" || k=="name") && "id" in json)    //build a special object of format {"_link_title": <title>, "_link_dest": <dest>} to specify certian in-line links
+            {
+              var current_path = window.location.href;
+              var split = current_path.split("/");
+              var tail = split[split.length - 1];
+              tail = tail.split("?")[0];                    //remove search terms, if any. e.g. objects?added_after=2018-05-08T21:07:34.514Z => objects
+              split[split.length - 1] = tail;
+              if(!split[split.length - 1].includes("-"))    // links are only created if the trailing path piece is /objects or /collections, rather than a serial number, like /9ee8a9b3-da1b-45d1-9cf6-8141f7039f82
+              {
+                var dest = "";
+                for(var i = 0; i < split.length; i++)       //rebuild the url
+                {
+                  dest += split[i] + "/";
+                }
+                dest += json["id"];
+                json[k] = {"_link_title":json[k], "_link_dest":dest};   //this format is caught early in the "object" rendering code so that it can be used to make a link in stead
+              }
+            }
+
                 append(os, themetext(null, indent+"    ", "key", '"'+k+'"', "object syntax", ': '),
                        _renderjson(options.replacer.call(json, k, json[k]), indent+"    ", true, show_level-1, options),
                        k != last ? themetext("syntax", ",") : [],
