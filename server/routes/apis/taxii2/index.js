@@ -10,7 +10,7 @@ const
 let router = express.Router();
 
 router.use('/:apiRootId/status/', statusController);
-router.use('/:apiRootId/collections/:collectionName/objects', objectsController);
+router.use('/:apiRootId/collections/:collectionId/objects', objectsController);
 router.use('/:apiRootId/collections/', collectionsController);
 router.use('/', apiRootsController);
 

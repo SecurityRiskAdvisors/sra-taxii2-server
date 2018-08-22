@@ -30,6 +30,7 @@ services:
       - ../sra-taxii2-manager/server:/usr/src/app/
       - /usr/src/app/node_modules
       - /opt/taxii/certs:/opt/taxii/certs
+      - /opt/taxii/sharedimport:/opt/taxii/sharedimport
     ports:
       - "4002:4000"
       - "4003:4001"
@@ -71,6 +72,7 @@ services:
       - ../sra-taxii2-server-queue:/usr/src/app/
       - /usr/src/app/node_modules
       - /opt/taxii/filetemp:/opt/taxii/filetemp
+      - /opt/taxii/sharedimport:/opt/taxii/sharedimport
     networks:
       - taxii_bridge
     dns: 8.8.8.8
