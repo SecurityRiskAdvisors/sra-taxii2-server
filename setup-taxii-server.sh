@@ -64,6 +64,7 @@ fi
 git clone https://github.com/SecurityRiskAdvisors/sra-taxii2-server-queue.git $INSTALL_DIR/sra-taxii2-server-queue
 
 mkdir -p /opt/taxii/filetemp
+mkdir -p /opt/taxii/sharedimport
 
 mkdir -p $TAXII_CERT_DIR
 openssl req -new -x509 -days 9999 -config $INSTALL_DIR/sra-taxii2-server/dev/ca.cnf -keyout $TAXII_CERT_DIR/ca-key.pem -out $TAXII_CERT_DIR/ca-crt.pem
@@ -133,7 +134,12 @@ EOF
 
 cat > $INSTALL_DIR/sra-taxii2-server-queue/.env <<EOF
 CONNECTION_STRING=mongodb://sra-taxii2-mongo:27017/
-FILE_TEMP_DIR=/opt/taxii/filetemp
+FILE_TEMP_DIR=/opt/taxii/sharedimport
+EOF
+
+cat > $INSTALL_DIR/sra-taxii2-manager/server/.env <<EOF
+FILE_TEMP_DIR=/opt/taxii/sharedimport
 EOF
 
 chown $RUN_USER:$RUN_USER $INSTALL_DIR -R
+
