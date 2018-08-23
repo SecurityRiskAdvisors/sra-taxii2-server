@@ -41,6 +41,8 @@ The server also supports HTTP requests to taxii endpoints and will render them d
 
 The manager server API supports some CRUD operations for accounts and collections, but it's currently incomplete.
 
+Beyond the POST operation, new directories in /opt/taxii/sharedimport will create taxii collections with the title as the dir name if they dont exist.  Pasting valid STIX2 json bundles in these directories will trigger a background job that inserts the data into the collection.  
+
 ## Installation (Hard/Dev) ##
 
 #### Linux Docker Host ####
