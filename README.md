@@ -21,7 +21,7 @@ Uses Node.js with MongoDB backend.
 wget https://raw.githubusercontent.com/SecurityRiskAdvisors/sra-taxii2-server/master/setup-taxii-server.sh 
 sudo ./setup-taxii-server.sh
 cd <installation_directory>/sra-taxii2-server
-sudo docker-compose up
+sudo docker-compose -p dev up
 ```
 
 ## Usage ##
