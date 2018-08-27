@@ -7,7 +7,7 @@ const
     httpsRedirect = require('../../server/middleware/https-redirect');
 
 function init(server) {
-    server.get('*', function (req, res, next) {
+    server.all('*', function (req, res, next) {
             console.log('Request was made to: ' + req.originalUrl);
             return next();
         }, 

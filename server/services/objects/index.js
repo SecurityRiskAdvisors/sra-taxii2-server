@@ -95,7 +95,7 @@ const postObjects = async (req, res, next) => {
         let importStixQueue = new Queue('importStix2', {redis: {port: 6379, host: 'sra-taxii2-redis'}});
         let jobResult = await importStixQueue.add('importStix2',{
             apiRoot: req.params.apiRootId,
-            collection: req.params.collectionId,
+            collection: req.params.collectionName,
             file: fileName
         }, {jobId: uuid});
 
