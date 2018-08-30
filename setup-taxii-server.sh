@@ -1,5 +1,4 @@
 #!/bin/bash
-# This script will test if you have given a leap year or not.
 
 echo "Interactive setup script for SRA Taxii 2.0 Server."
 echo "========================================================================"
