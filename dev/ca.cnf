@@ -16,7 +16,7 @@ days                   = 9999
 distinguished_name     = req_distinguished_name
 attributes             = req_attributes
 prompt                 = no
-output_password        = password
+output_password        = !!TAXII_PASSWORD_REPLACE!!
 
 [ req_distinguished_name ]
 C                      = US
@@ -26,6 +26,3 @@ O                      = TAXII Example
 OU                     = TAXII Server
 CN                     = ca
 emailAddress           = certs@example.com
-
-[ req_attributes ]
-challengePassword      = test

@@ -71,12 +71,12 @@ openssl req -new -x509 -days 9999 -config $INSTALL_DIR/sra-taxii2-server/dev/ca.
 # taxii server certs
 openssl genrsa -out $TAXII_CERT_DIR/taxii-server-key.pem 4096
 openssl req -new -config $INSTALL_DIR/sra-taxii2-server/dev/taxii-server.cnf -key $TAXII_CERT_DIR/taxii-server-key.pem -out $TAXII_CERT_DIR/taxii-server-csr.pem
-openssl x509 -req -extfile $INSTALL_DIR/sra-taxii2-server/dev/taxii-server.cnf -days 999 -passin "pass:password" -in $TAXII_CERT_DIR/taxii-server-csr.pem -CA $TAXII_CERT_DIR/ca-crt.pem -CAkey $TAXII_CERT_DIR/ca-key.pem -CAcreateserial -out $TAXII_CERT_DIR/taxii-server-crt.pem
+openssl x509 -req -extfile $INSTALL_DIR/sra-taxii2-server/dev/taxii-server.cnf -days 999 -passin "pass:!!TAXII_PASSWORD_REPLACE!!" -in $TAXII_CERT_DIR/taxii-server-csr.pem -CA $TAXII_CERT_DIR/ca-crt.pem -CAkey $TAXII_CERT_DIR/ca-key.pem -CAcreateserial -out $TAXII_CERT_DIR/taxii-server-crt.pem
 
 # manager service certs (not used yet)
 openssl genrsa -out $TAXII_CERT_DIR/taxii-manager-key.pem 4096
 openssl req -new -config $INSTALL_DIR/sra-taxii2-server/dev/taxii-manager.cnf -key $TAXII_CERT_DIR/taxii-manager-key.pem -out $TAXII_CERT_DIR/taxii-manager-csr.pem
-openssl x509 -req -extfile $INSTALL_DIR/sra-taxii2-server/dev/taxii-manager.cnf -days 999 -passin "pass:password" -in $TAXII_CERT_DIR/taxii-manager-csr.pem -CA $TAXII_CERT_DIR/ca-crt.pem -CAkey $TAXII_CERT_DIR/ca-key.pem -CAcreateserial -out $TAXII_CERT_DIR/taxii-manager-crt.pem
+openssl x509 -req -extfile $INSTALL_DIR/sra-taxii2-server/dev/taxii-manager.cnf -days 999 -passin "pass:!!TAXII_PASSWORD_REPLACE!!" -in $TAXII_CERT_DIR/taxii-manager-csr.pem -CA $TAXII_CERT_DIR/ca-crt.pem -CAkey $TAXII_CERT_DIR/ca-key.pem -CAcreateserial -out $TAXII_CERT_DIR/taxii-manager-crt.pem
 
 echo ""
 echo "If no errors above, code downloaded and certs generated. Starting service configuration..."
