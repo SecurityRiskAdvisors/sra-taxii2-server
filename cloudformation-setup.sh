@@ -76,13 +76,14 @@ CERT_DIR=/opt/taxii/certs
 STIX_CONTENT_TYPE="application/vnd.oasis.stix+json; version=2.0"
 TAXII_CONTENT_TYPE="application/vnd.oasis.taxii+json; version=2.0"
 PAGINATION_LIMIT=100,
-MANAGER_URL=https://sra-taxii2-manager-server:4001
+MANAGER_URL=http://sra-taxii2-manager-server:4001
 JOB_QUEUE_DB=taxii2jobs
 TEMP_FILE_DIR=/opt/taxii/filetemp
 BASE_TEMPLATE=base-json
 TAXII_TITLE="$TAXII_TITLE"
 TAXII_DESCRIPTION="$TAXII_DESCRIPTION"
 TAXII_CONTACT="$TAXII_CONTACT"
+ALLOW_HTTP=true
 EOF
 
 cat > $INSTALL_DIR/sra-taxii2-server-queue/.env <<EOF
