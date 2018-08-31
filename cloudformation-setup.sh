@@ -9,8 +9,8 @@
 
 TAXII_CERT_DIR=/opt/taxii/certs
 INSTALL_DIR=/opt/taxii/service
-TAXII_TITLE=!!TAXII_TITLE_REPLACE!!
-TAXII_DESCRIPTION=!!TAXII_DESC_REPLACE!!
+TAXII_TITLE="!!TAXII_TITLE_REPLACE!!"
+TAXII_DESCRIPTION="!!TAXII_DESC_REPLACE!!"
 TAXII_CONTACT=!!TAXII_CONTACT_REPLACE!!
 
 if [[ -d $INSTALL_DIR ]]
@@ -28,6 +28,8 @@ if [ -n "$(ls -A $INSTALL_DIR/sra-taxii2-server)" ]; then
    exit 1
 fi
 git clone https://github.com/SecurityRiskAdvisors/sra-taxii2-server.git $INSTALL_DIR/sra-taxii2-server
+
+sed -i 's/!!TAXII_PASSWORD_REPLACE2!!/!!TAXII_PASSWORD_REPLACE!!/' $INSTALL_DIR/sra-taxii2-server/dev/ca.cnf 
 
 mkdir -p $INSTALL_DIR/sra-taxii2-manager
 mkdir -p $INSTALL_DIR/sra-taxii2-manager/server
