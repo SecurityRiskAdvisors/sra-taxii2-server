@@ -24,6 +24,11 @@ cd <installation_directory>/sra-taxii2-server
 sudo docker-compose -p dev up
 ```
 
+**Make Self-signed SSL Work**
+* Chrome Settings > Manage certificates > Authorities > add /opt/taxii/taxiiRootCA.pem
+* edit /etc/hosts add "127.0.0.1       sra-taxii2-server" and "127.0.0.1       sra-taxii2-manager-server"
+
+
 ## Usage ##
 
 **Default username:** admin@example.com
