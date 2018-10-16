@@ -66,17 +66,19 @@ mkdir -p /opt/taxii/filetemp
 mkdir -p /opt/taxii/sharedimport
 
 mkdir -p $TAXII_CERT_DIR
-openssl req -new -x509 -days 9999 -config $INSTALL_DIR/sra-taxii2-server/dev/ca.cnf -keyout $TAXII_CERT_DIR/ca-key.pem -out $TAXII_CERT_DIR/ca-crt.pem
+# generate CA cert
+openssl genrsa -out $TAXII_CERT_DIR/taxiiRootCA.key 4096
+openssl req -new -x509 -days 9999 -nodes -key $TAXII_CERT_DIR/taxiiRootCA.key -sha256 -out $TAXII_CERT_DIR/taxiiRootCA.pem -config $INSTALL_DIR/sra-taxii2-server/dev/taxii-ca.cnf
 
 # taxii server certs
-openssl genrsa -out $TAXII_CERT_DIR/taxii-server-key.pem 4096
-openssl req -new -config $INSTALL_DIR/sra-taxii2-server/dev/taxii-server.cnf -key $TAXII_CERT_DIR/taxii-server-key.pem -out $TAXII_CERT_DIR/taxii-server-csr.pem
-openssl x509 -req -extfile $INSTALL_DIR/sra-taxii2-server/dev/taxii-server.cnf -days 999 -passin "pass:!!TAXII_PASSWORD_REPLACE!!" -in $TAXII_CERT_DIR/taxii-server-csr.pem -CA $TAXII_CERT_DIR/ca-crt.pem -CAkey $TAXII_CERT_DIR/ca-key.pem -CAcreateserial -out $TAXII_CERT_DIR/taxii-server-crt.pem
+openssl req -new -sha256 -nodes -out $TAXII_CERT_DIR/taxii-server.csr -newkey rsa:4096 -keyout $TAXII_CERT_DIR/taxii-server.key -config $INSTALL_DIR/sra-taxii2-server/dev/server/taxii-server.cnf
+openssl x509 -req -in $TAXII_CERT_DIR/taxii-server.csr -CA $TAXII_CERT_DIR/taxiiRootCA.pem -CAkey $TAXII_CERT_DIR/taxiiRootCA.key -CAcreateserial -out $TAXII_CERT_DIR/taxii-server.crt -days 3650 -passin "pass:!!TAXII_PASSWORD_REPLACE!!" -sha256 -extfile $INSTALL_DIR/sra-taxii2-server/dev/server/v3.ext
+openssl x509 -in $TAXII_CERT_DIR/taxii-server.crt -out $TAXII_CERT_DIR/taxii-server.pem -outform PEM
 
 # manager service certs (not used yet)
-openssl genrsa -out $TAXII_CERT_DIR/taxii-manager-key.pem 4096
-openssl req -new -config $INSTALL_DIR/sra-taxii2-server/dev/taxii-manager.cnf -key $TAXII_CERT_DIR/taxii-manager-key.pem -out $TAXII_CERT_DIR/taxii-manager-csr.pem
-openssl x509 -req -extfile $INSTALL_DIR/sra-taxii2-server/dev/taxii-manager.cnf -days 999 -passin "pass:!!TAXII_PASSWORD_REPLACE!!" -in $TAXII_CERT_DIR/taxii-manager-csr.pem -CA $TAXII_CERT_DIR/ca-crt.pem -CAkey $TAXII_CERT_DIR/ca-key.pem -CAcreateserial -out $TAXII_CERT_DIR/taxii-manager-crt.pem
+openssl req -new -sha256 -nodes -out $TAXII_CERT_DIR/taxii-manager.csr -newkey rsa:4096 -keyout $TAXII_CERT_DIR/taxii-manager.key -config $INSTALL_DIR/sra-taxii2-server/dev/manager/taxii-manager.cnf
+openssl x509 -req -in $TAXII_CERT_DIR/taxii-manager.csr -CA $TAXII_CERT_DIR/taxiiRootCA.pem -CAkey $TAXII_CERT_DIR/taxiiRootCA.key -CAcreateserial -out $TAXII_CERT_DIR/taxii-manager.crt -days 3650 -passin "pass:!!TAXII_PASSWORD_REPLACE!!" -sha256 -extfile $INSTALL_DIR/sra-taxii2-server/dev/manager/v3.ext
+openssl x509 -in $TAXII_CERT_DIR/taxii-manager.crt -out $TAXII_CERT_DIR/taxii-manager.pem -outform PEM
 
 echo ""
 echo "If no errors above, code downloaded and certs generated. Starting service configuration..."

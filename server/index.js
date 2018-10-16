@@ -15,9 +15,9 @@ let hostname = process.env.HOSTNAME,
     httpPort = process.env.HTTP_PORT,
     httpsPort = process.env.HTTPS_PORT,
     sslOptions = {
-        key: fs.readFileSync(sslCertDir + '/taxii-server-key.pem'),
-        cert: fs.readFileSync(sslCertDir + '/taxii-server-crt.pem'),
-        ca: fs.readFileSync(sslCertDir + '/ca-crt.pem'), 
+        key: fs.readFileSync(sslCertDir + '/taxii-server.key'),
+        cert: fs.readFileSync(sslCertDir + '/taxii-server.crt'),
+        ca: fs.readFileSync(sslCertDir + '/taxiiRootCA.pem'), 
     };
 
 http.createServer(app).listen(httpPort, function () {

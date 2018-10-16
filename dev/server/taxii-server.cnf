@@ -1,6 +1,7 @@
 [ req ]
 default_bits           = 4096
 days                   = 9999
+default_md             = sha256
 distinguished_name     = req_distinguished_name
 prompt                 = no
 x509_extensions        = v3_ca
