@@ -16,7 +16,7 @@
     "taxii2",
     "threat-intelligence"
   ],
-  "author": "Galen Fisher <galen.fisher@securityriskadvisors.com>",
+  "author": "SRA <info@securityriskadvisors.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -39,7 +39,7 @@
     "mongoose-paginate": "^5.0.3",
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
-    "sra-taxii2-server-model": "^1.0.9",
+    "sra-taxii2-server-model": "^1.0.10",
     "uuid": "^3.2.1",
     "verror": "^1.10.0"
   },
