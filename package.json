@@ -34,7 +34,7 @@
     "express-range": "^2.0.1",
     "json-formatter-js": "^2.2.0",
     "lodash": "^4.17.14",
-    "mongoose": "^5.4.11",
+    "mongoose": "^5.7.5",
     "mongoose-aggregate-paginate-extend": "github:thebleucheese/mongoose-aggregate-paginate-extend",
     "mongoose-paginate": "^5.0.3",
     "passport": "^0.4.0",
