@@ -23,7 +23,7 @@
     "url": "https://github.com/SecurityRiskAdvisors/sra-taxii2-server.git"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "bull": "^3.4.2",
